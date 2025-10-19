@@ -38,3 +38,33 @@ describe("GET /users", () => {
      */
   });
 });
+
+describe("POST /users", () => {
+  it("should return 201 for successful user creation", async () => {});
+
+  it("should create a new user", async () => {});
+
+  it("should return the user", async () => {});
+
+  describe("when the user already exists", () => {
+    it("should return 200", async () => {});
+
+    it("should return the user", async () => {});
+  });
+
+  describe("when invalid request data is provided", () => {
+    it("should return 400", async () => {});
+  });
+
+  describe("when the server encounters an error", () => {
+    it("should return 500 for internal server error", async () => {});
+  });
+
+  /*
+
+  describe("when authentication or authorization fails", () => {
+    it("should return 401 if no token is provided", async () => {});
+    it("should return 403 if the requester is not an admin", async () => {});
+  });
+    */
+});
