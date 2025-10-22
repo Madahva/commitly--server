@@ -7,10 +7,12 @@ const pictureUrlSchema = z.url({
 
 export const userSchema = z
   .object({
+    id: z.number().int().optional(),
     nickname: z.string().min(1),
     name: z.string(),
     picture: pictureUrlSchema,
-    updated_at: z.iso.datetime(),
+    updated_at: z.union([z.date(), z.string()]),
+    created_at: z.union([z.date(), z.string()]).optional(),
     email: z.email(),
     email_verified: z.boolean(),
     sub: z.string().regex(/^auth0\|[a-zA-Z0-9]+$/),
