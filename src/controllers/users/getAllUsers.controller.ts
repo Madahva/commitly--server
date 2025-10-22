@@ -9,8 +9,10 @@ export const getAllUsersController = async (req: Request, res: Response) => {
   try {
     const users: User[] = await getAllUsersService();
     const result = z.array(userSchema).parse(users);
-    res.status(200).json(result);
+    return res.status(200).json(result);
   } catch (error) {
+    console.error(error);
+
     if (error instanceof z.ZodError) {
       return res.status(500).json({
         message: error.message,

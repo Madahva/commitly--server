@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-config();
+config({ quiet: true });
 
 export const PORT = process.env.PORT || 3000;
 export const DB_NAME = process.env.DB_NAME || "postgres";

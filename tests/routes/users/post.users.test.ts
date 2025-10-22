@@ -1,6 +1,18 @@
 import request from "supertest";
+import z from "zod";
 
 import { app } from "../../../src/app";
+import { userSchema } from "../../../src/schemas/user.schema";
+
+jest.mock("../../../src/services/users/createUser.service", () => ({
+  createUser: jest.fn(),
+}));
+
+import { createUser } from "../../../src/services/users/createUser.service";
+
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
 
 const newUser = {
   nickname: "galarza.guillemo",
@@ -14,34 +26,76 @@ const newUser = {
 };
 
 describe("POST /users", () => {
+  beforeEach(() => {
+    (createUser as jest.Mock).mockResolvedValue([newUser, true]);
+  });
+
   it("should return 201 for successful user creation", async () => {
     const res = await request(app).post("/api/users").send(newUser);
     expect(res.statusCode).toBe(201);
   });
 
-  it("should create a new user", async () => {});
+  it("should create a new user", async () => {
+    const res = await request(app).post("/api/users").send(newUser);
+    expect(createUser).toHaveBeenCalledWith(newUser);
+  });
 
-  it("should return the user", async () => {});
+  it("should return the user", async () => {
+    const res = await request(app).post("/api/users").send(newUser);
+
+    userSchema.parse(res.body);
+
+    expect(res.body).toEqual(newUser);
+  });
 
   describe("when the user already exists", () => {
-    it("should return 200", async () => {});
+    beforeEach(() => {
+      (createUser as jest.Mock).mockResolvedValue([newUser, false]);
+    });
 
-    it("should return the user", async () => {});
+    it("should return 200", async () => {
+      const res = await request(app).post("/api/users").send(newUser);
+
+      expect(res.statusCode).toBe(200);
+    });
+
+    it("should return the user", async () => {
+      const res = await request(app).post("/api/users").send(newUser);
+
+      userSchema.parse(res.body);
+
+      expect(res.body).toEqual(newUser);
+    });
   });
 
   describe("when invalid request data is provided", () => {
-    it("should return 400", async () => {});
+    it("should return 400", async () => {
+      const invalidUser = { email: "" };
+
+      const res = await request(app).post("/api/users").send(invalidUser);
+
+      expect(res.statusCode).toBe(400);
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body[0]).toHaveProperty("path");
+      expect(res.body[0]).toHaveProperty("message");
+    });
   });
 
   describe("when the server encounters an error", () => {
-    it("should return 500 for internal server error", async () => {});
-  });
+    it("should return 500 for internal server error", async () => {
+      (createUser as jest.Mock).mockRejectedValue(new Error("DB failure"));
 
-  /*
+      const res = await request(app).post("/api/users").send(newUser);
+
+      expect(res.statusCode).toBe(500);
+      expect(res.body).toEqual({ message: "Internal Server Error" });
+    });
+  });
+});
+/*
 
   describe("when authentication or authorization fails", () => {
     it("should return 401 if no token is provided", async () => {});
     it("should return 403 if the requester is not an admin", async () => {});
   });
     */
-});

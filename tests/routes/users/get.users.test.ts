@@ -5,6 +5,10 @@ import * as userService from "../../../src/services/users/getAllUsers.service";
 import { app } from "../../../src/app";
 import { userSchema } from "../../../src/schemas/user.schema";
 
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("GET /users", () => {
   it("should respond with 200", async () => {
     const res = await request(app).get("/api/users");
