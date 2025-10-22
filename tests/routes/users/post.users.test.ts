@@ -1,5 +1,4 @@
 import request from "supertest";
-import z from "zod";
 
 import { app } from "../../../src/app";
 import { userSchema } from "../../../src/schemas/user.schema";
@@ -36,16 +35,17 @@ describe("POST /users", () => {
   });
 
   it("should create a new user", async () => {
-    const res = await request(app).post("/api/users").send(newUser);
+    await request(app).post("/api/users").send(newUser);
+
     expect(createUser).toHaveBeenCalledWith(newUser);
   });
 
   it("should return the user", async () => {
     const res = await request(app).post("/api/users").send(newUser);
 
-    userSchema.parse(res.body);
+    const parsedUser = userSchema.parse(res.body);
 
-    expect(res.body).toEqual(newUser);
+    expect(parsedUser).toEqual(newUser);
   });
 
   describe("when the user already exists", () => {
@@ -62,9 +62,9 @@ describe("POST /users", () => {
     it("should return the user", async () => {
       const res = await request(app).post("/api/users").send(newUser);
 
-      userSchema.parse(res.body);
+      const parsedUser = userSchema.parse(res.body);
 
-      expect(res.body).toEqual(newUser);
+      expect(parsedUser).toEqual(newUser);
     });
   });
 
