@@ -8,7 +8,8 @@
     "start": "node dist/server.js",
     "dev": "ts-node src/server.ts",
     "dev:watch": "nodemon --exec ts-node src/server.ts",
-    "test": "NODE_ENV=test jest --watchAll --verbose --runInBand",
+    "test": "NODE_ENV=test jest --runInBand",
+    "test:watch": "NODE_ENV=test jest --watchAll --verbose --runInBand",
     "coverage": "jest --coverage"
   },
   "keywords": [],
