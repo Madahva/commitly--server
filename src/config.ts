@@ -18,28 +18,35 @@ function getEnvVar(key: string): string {
   return value;
 }
 
-const configs: Record<string, DBConfig> = {
-  development: {
-    DB_NAME: getEnvVar("DEV_DB_NAME"),
-    DB_USER: getEnvVar("DEV_DB_USER"),
-    DB_PASSWORD: getEnvVar("DEV_DB_PASSWORD"),
-    DB_HOST: getEnvVar("DEV_DB_HOST"),
-  },
-  test: {
-    DB_NAME: getEnvVar("TEST_DB_NAME"),
-    DB_USER: getEnvVar("TEST_DB_USER"),
-    DB_PASSWORD: getEnvVar("TEST_DB_PASSWORD"),
-    DB_HOST: getEnvVar("TEST_DB_HOST"),
-  },
-  production: {
-    DB_NAME: getEnvVar("PROD_DB_NAME"),
-    DB_USER: getEnvVar("PROD_DB_USER"),
-    DB_PASSWORD: getEnvVar("PROD_DB_PASSWORD"),
-    DB_HOST: getEnvVar("PROD_DB_HOST"),
-  },
-};
+function getConfig(environment: string): DBConfig {
+  switch (environment) {
+    case "development":
+      return {
+        DB_NAME: getEnvVar("DEV_DB_NAME"),
+        DB_USER: getEnvVar("DEV_DB_USER"),
+        DB_PASSWORD: getEnvVar("DEV_DB_PASSWORD"),
+        DB_HOST: getEnvVar("DEV_DB_HOST"),
+      };
+    case "test":
+      return {
+        DB_NAME: getEnvVar("TEST_DB_NAME"),
+        DB_USER: getEnvVar("TEST_DB_USER"),
+        DB_PASSWORD: getEnvVar("TEST_DB_PASSWORD"),
+        DB_HOST: getEnvVar("TEST_DB_HOST"),
+      };
+    case "production":
+      return {
+        DB_NAME: getEnvVar("PROD_DB_NAME"),
+        DB_USER: getEnvVar("PROD_DB_USER"),
+        DB_PASSWORD: getEnvVar("PROD_DB_PASSWORD"),
+        DB_HOST: getEnvVar("PROD_DB_HOST"),
+      };
+    default:
+      throw new Error(`Unknown environment: ${environment}`);
+  }
+}
 
-const currentConfig = configs[env];
+const currentConfig = getConfig(env);
 export const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = currentConfig;
 export const PORT = process.env.PORT || 3000;
 export const NODE_ENV = env;
