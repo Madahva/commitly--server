@@ -10,29 +10,36 @@ type DBConfig = {
   DB_HOST: string;
 };
 
+function getEnvVar(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${key}`);
+  }
+  return value;
+}
+
 const configs: Record<string, DBConfig> = {
   development: {
-    DB_NAME: process.env.DEV_DB_NAME!,
-    DB_USER: process.env.DEV_DB_USER!,
-    DB_PASSWORD: process.env.DEV_DB_PASSWORD!,
-    DB_HOST: process.env.DEV_DB_HOST!,
+    DB_NAME: getEnvVar("DEV_DB_NAME"),
+    DB_USER: getEnvVar("DEV_DB_USER"),
+    DB_PASSWORD: getEnvVar("DEV_DB_PASSWORD"),
+    DB_HOST: getEnvVar("DEV_DB_HOST"),
   },
   test: {
-    DB_NAME: process.env.TEST_DB_NAME!,
-    DB_USER: process.env.TEST_DB_USER!,
-    DB_PASSWORD: process.env.TEST_DB_PASSWORD!,
-    DB_HOST: process.env.TEST_DB_HOST!,
+    DB_NAME: getEnvVar("TEST_DB_NAME"),
+    DB_USER: getEnvVar("TEST_DB_USER"),
+    DB_PASSWORD: getEnvVar("TEST_DB_PASSWORD"),
+    DB_HOST: getEnvVar("TEST_DB_HOST"),
   },
   production: {
-    DB_NAME: process.env.PROD_DB_NAME!,
-    DB_USER: process.env.PROD_DB_USER!,
-    DB_PASSWORD: process.env.PROD_DB_PASSWORD!,
-    DB_HOST: process.env.PROD_DB_HOST!,
+    DB_NAME: getEnvVar("PROD_DB_NAME"),
+    DB_USER: getEnvVar("PROD_DB_USER"),
+    DB_PASSWORD: getEnvVar("PROD_DB_PASSWORD"),
+    DB_HOST: getEnvVar("PROD_DB_HOST"),
   },
 };
 
 const currentConfig = configs[env];
-
 export const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = currentConfig;
 export const PORT = process.env.PORT || 3000;
 export const NODE_ENV = env;

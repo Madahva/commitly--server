@@ -15,12 +15,12 @@ router.get("/", getAllUsersController);
 router.post(
   "/",
   validateRequest(createUserEndpointSchema),
-  createUserController,
+  createUserController
 );
 router.delete(
   "/:id",
   validateRequest(deleteUserEndpointSchema),
-  deleteUserController,
+  deleteUserController
 );
 
 export default router;

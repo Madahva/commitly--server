@@ -41,7 +41,7 @@ describe("POST /users", () => {
 
     const userInDb = await User.findOne({ where: { email: newUser.email } });
     expect(userInDb).not.toBeNull();
-    expect(userInDb!.get("email")).toBe(newUser.email);
+    expect(userInDb?.get("email")).toBe(newUser.email);
   });
 
   it("should return the user", async () => {

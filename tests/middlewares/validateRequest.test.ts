@@ -52,7 +52,7 @@ describe("validateRequest middleware", () => {
     expect(res.json).toHaveBeenCalledWith(
       expect.arrayContaining([
         expect.objectContaining({ message: expect.any(String) }),
-      ]),
+      ])
     );
   });
 

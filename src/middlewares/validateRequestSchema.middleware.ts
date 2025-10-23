@@ -17,7 +17,7 @@ export const validateRequest =
           error.issues.map((issue) => ({
             path: issue.path,
             message: issue.message,
-          })),
+          }))
         );
       }
       return res.status(500).json({ message: "internal server error" });
