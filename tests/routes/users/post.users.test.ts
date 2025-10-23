@@ -1,16 +1,21 @@
 import request from "supertest";
 
 import { app } from "../../../src/app";
+import { sequelize } from "../../../src/database/connection";
+import { User } from "../../../src/database/models/user.model";
 import { userSchema } from "../../../src/schemas/user.schema";
+import * as userService from "../../../src/services/users/createUser.service";
 
-jest.mock("../../../src/services/users/createUser.service", () => ({
-  createUser: jest.fn(),
-}));
-
-import { createUser } from "../../../src/services/users/createUser.service";
-
-beforeAll(() => {
+beforeAll(async () => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
+beforeEach(async () => {
+  await User.destroy({ where: {}, truncate: true });
+});
+
+afterAll(async () => {
+  await sequelize.close();
 });
 
 const newUser = {
@@ -25,10 +30,6 @@ const newUser = {
 };
 
 describe("POST /users", () => {
-  beforeEach(() => {
-    (createUser as jest.Mock).mockResolvedValue([newUser, true]);
-  });
-
   it("should return 201 for successful user creation", async () => {
     const res = await request(app).post("/api/users").send(newUser);
     expect(res.statusCode).toBe(201);
@@ -37,7 +38,9 @@ describe("POST /users", () => {
   it("should create a new user", async () => {
     await request(app).post("/api/users").send(newUser);
 
-    expect(createUser).toHaveBeenCalledWith(newUser);
+    const userInDb = await User.findOne({ where: { email: newUser.email } });
+    expect(userInDb).not.toBeNull();
+    expect(userInDb!.get("email")).toBe(newUser.email);
   });
 
   it("should return the user", async () => {
@@ -45,26 +48,33 @@ describe("POST /users", () => {
 
     const parsedUser = userSchema.parse(res.body);
 
-    expect(parsedUser).toEqual(newUser);
+    expect(parsedUser).toMatchObject({
+      email: newUser.email,
+      nickname: newUser.nickname,
+      sub: newUser.sub,
+    });
   });
 
   describe("when the user already exists", () => {
-    beforeEach(() => {
-      (createUser as jest.Mock).mockResolvedValue([newUser, false]);
-    });
-
     it("should return 200", async () => {
+      await User.create(newUser);
+
       const res = await request(app).post("/api/users").send(newUser);
 
       expect(res.statusCode).toBe(200);
     });
 
     it("should return the user", async () => {
+      await User.create(newUser);
       const res = await request(app).post("/api/users").send(newUser);
 
       const parsedUser = userSchema.parse(res.body);
 
-      expect(parsedUser).toEqual(newUser);
+      expect(parsedUser).toMatchObject({
+        email: newUser.email,
+        nickname: newUser.nickname,
+        sub: newUser.sub,
+      });
     });
   });
 
@@ -82,9 +92,17 @@ describe("POST /users", () => {
   });
 
   describe("when the server encounters an error", () => {
-    it("should return 500 for internal server error", async () => {
-      (createUser as jest.Mock).mockRejectedValue(new Error("DB failure"));
+    beforeAll(() => {
+      jest
+        .spyOn(userService, "createUser")
+        .mockRejectedValue(new Error("DB failure"));
+    });
 
+    afterAll(() => {
+      jest.restoreAllMocks();
+    });
+
+    it("should return 500 for internal server error", async () => {
       const res = await request(app).post("/api/users").send(newUser);
 
       expect(res.statusCode).toBe(500);

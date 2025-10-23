@@ -7,7 +7,7 @@ const pictureUrlSchema = z.url({
 
 export const userSchema = z
   .object({
-    id: z.number().int().optional(),
+    id: z.number().int().positive().optional(),
     nickname: z.string().min(1),
     name: z.string(),
     picture: pictureUrlSchema,
@@ -21,6 +21,14 @@ export const userSchema = z
 
 export const createUserEndpointSchema = z.object({
   body: userSchema,
+});
+
+export const deleteUserParamsSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});
+
+export const deleteUserEndpointSchema = z.object({
+  params: deleteUserParamsSchema,
 });
 
 export type User = z.infer<typeof userSchema>;
