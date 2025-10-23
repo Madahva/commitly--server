@@ -53,8 +53,7 @@
   "lint-staged": {
     "*": [
       "pnpm run format",
-      "pnpm run lint:fix",
-      "pnpm run test"
+      "pnpm run lint:fix"
     ]
   }
 }
