@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import z from "zod";
 
 import { deleteUser } from "../../services/users/deleteUser.service";
 
