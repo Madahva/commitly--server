@@ -12,4 +12,5 @@ if [[ ! $local_branch =~ $valid_branch_regex ]]; then
 fi
 
 pnpm run test
+
 pnpm exec lint-staged
