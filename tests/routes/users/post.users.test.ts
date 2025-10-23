@@ -7,6 +7,7 @@ import { userSchema } from "../../../src/schemas/user.schema";
 import * as userService from "../../../src/services/users/createUser.service";
 
 beforeAll(async () => {
+  await sequelize.sync({ force: true });
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 

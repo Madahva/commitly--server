@@ -9,6 +9,7 @@ import { User } from "../../../src/database/models/user.model";
 
 beforeAll(async () => {
   jest.spyOn(console, "error").mockImplementation(() => {});
+  await sequelize.sync({ force: true });
 });
 
 beforeEach(async () => {

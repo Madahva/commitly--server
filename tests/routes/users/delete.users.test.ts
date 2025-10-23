@@ -5,6 +5,7 @@ import { sequelize } from "../../../src/database/connection";
 import { User } from "../../../src/database/models/user.model";
 
 beforeAll(async () => {
+  await sequelize.sync({ force: true });
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
