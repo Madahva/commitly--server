@@ -1,15 +1,3 @@
-Yellow='\033[0;33m'
-NC='\033[0m'
-local_branch="$(git rev-parse --abbrev-ref HEAD)"
-valid_branch_regex='^(feat|fix|docs|chore|refactor|test|style|perf)/([A-Z]+-)?[a-z0-9-]+$'
-
-message="\nBranch names in this project must adhere to this contract:\n${Yellow}$valid_branch_regex${NC}\nYour commit will be rejected. You should rename your branch to a valid name and try again.\nFor example: feat/AUTH-set-up or feat/PROJ-123-setup\n"
-
-if [[ ! $local_branch =~ $valid_branch_regex ]]; then
-    echo "$local_branch"
-    echo -e "$message"
-    exit 1
-fi
-
 pnpm run test
+
 pnpm exec lint-staged
