@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [main, master, develop]
+    branches: [ main, master, develop ]
   pull_request:
-    branches: [main, master, develop]
+    branches: [ main, master, develop ]
 
 jobs:
   test:
@@ -25,28 +25,28 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    env:
+      NODE_ENV: test
+      TEST_DB_HOST: localhost
+      TEST_DB_NAME: test_db
+      TEST_DB_USER: postgres
+      TEST_DB_PASSWORD: password
+
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-
+          node-version: '20'
+      
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10.12.1
-
+      
       - name: Install dependencies
         run: pnpm install
-
+      
       - name: Run tests
         run: pnpm test
-        env:
-          NODE_ENV: test
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DB_NAME: test_db
-          DB_USER: postgres
-          DB_PASSWORD: password
