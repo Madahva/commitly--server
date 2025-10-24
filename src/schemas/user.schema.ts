@@ -42,4 +42,12 @@ export const updateUserEndpointSchema = z.object({
   body: updateUserBodySchema,
 });
 
+export const getUserParamsSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});
+
+export const getUserEndpointSchema = z.object({
+  params: getUserParamsSchema,
+});
+
 export type User = z.infer<typeof userSchema>;

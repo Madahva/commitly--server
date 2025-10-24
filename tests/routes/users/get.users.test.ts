@@ -70,7 +70,7 @@ describe("GET /users", () => {
     expect(parsedUsers).toHaveLength(0);
   });
 
-  describe("Error handling", () => {
+  describe("when the server encounters an error", () => {
     it("should return 500 when the server encounters an internal error", async () => {
       jest
         .spyOn(userService, "getAllUsersService")
