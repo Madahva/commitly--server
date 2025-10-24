@@ -31,4 +31,15 @@ export const deleteUserEndpointSchema = z.object({
   params: deleteUserParamsSchema,
 });
 
+export const updateUserParamsSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});
+
+export const updateUserBodySchema = userSchema.partial().omit({ id: true });
+
+export const updateUserEndpointSchema = z.object({
+  params: updateUserParamsSchema,
+  body: updateUserBodySchema,
+});
+
 export type User = z.infer<typeof userSchema>;
