@@ -80,7 +80,7 @@ describe("POST /users", () => {
   });
 
   describe("when invalid request data is provided", () => {
-    it("should return 400", async () => {
+    it("should return 400 for invalid user data", async () => {
       const invalidUser = { email: "" };
 
       const res = await request(app).post("/api/users").send(invalidUser);
