@@ -14,6 +14,12 @@ export const Project = sequelize.define(
     },
     color: {
       type: DataTypes.STRING,
+      validate: {
+        is: {
+          args: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i,
+          msg: "Color must be a valid hex color (e.g., #FF5733 or #F57)",
+        },
+      },
     },
     isActive: {
       type: DataTypes.BOOLEAN,
