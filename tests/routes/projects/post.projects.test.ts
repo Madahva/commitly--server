@@ -38,7 +38,7 @@ describe("createProject service", () => {
   it("should return the created project", async () => {
     const createdProject = await createProject(newProject);
 
-    expect(createdProject[0]).toMatchObject({
+    expect(createdProject.toJSON()).toMatchObject({
       name: newProject.name,
       description: newProject.description,
       color: newProject.color,
@@ -47,22 +47,15 @@ describe("createProject service", () => {
     });
   });
 
-  it("should find existing project and not create a duplicate", async () => {
-    await Project.create(newProject);
+  it("should not create a duplicate", async () => {
+    await createProject(newProject);
 
-    const createdProject = await createProject(newProject);
+    await expect(createProject(newProject)).rejects.toThrow();
 
     const projectsInDb = await Project.findAll({
       where: { name: newProject.name },
     });
 
-    expect(projectsInDb.length).toBe(1);
-    expect(createdProject[0]).toMatchObject({
-      name: newProject.name,
-      description: newProject.description,
-      color: newProject.color,
-      isActive: newProject.isActive,
-      track_time: newProject.track_time,
-    });
+    expect(projectsInDb).toHaveLength(1);
   });
 });
