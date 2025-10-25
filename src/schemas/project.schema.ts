@@ -22,5 +22,9 @@ export const createProjectSchema = projectSchema.omit({
   created_at: true,
 });
 
+export const createProjectEndpointSchema = z.object({
+  body: createProjectSchema,
+});
+
 export type Project = z.infer<typeof projectSchema>;
 export type CreateProject = z.infer<typeof createProjectSchema>;

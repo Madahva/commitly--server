@@ -101,6 +101,19 @@ describe("POST /projects", () => {
     });
   });
 
+  describe("when invalid request data is provided", () => {
+    it("should return 400 for invalid user data", async () => {
+      const invalidProject = { name: "" };
+
+      const res = await request(app).post("/api/projects").send(invalidProject);
+
+      expect(res.statusCode).toBe(400);
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body[0]).toHaveProperty("path");
+      expect(res.body[0]).toHaveProperty("message");
+    });
+  });
+
   describe("when the server encounters an error", () => {
     beforeAll(() => {
       jest
