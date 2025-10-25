@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { app } from "./app";
 import { PORT } from "./config";
 import { sequelize } from "./database/connection";
