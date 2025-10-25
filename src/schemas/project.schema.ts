@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const projectSchema = z
   .object({
-    id: z.number().int().positive().optional(),
-    userId: z.number().int().positive().optional(),
+    id: z.number().int().positive(),
+    userId: z.number().int().positive(),
     name: z.string(),
     description: z.string(),
     color: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i, {
@@ -11,9 +11,16 @@ export const projectSchema = z
     }),
     isActive: z.boolean(),
     track_time: z.boolean(),
-    updated_at: z.union([z.date(), z.string()]).optional(),
-    created_at: z.union([z.date(), z.string()]).optional(),
+    updated_at: z.union([z.date(), z.string()]),
+    created_at: z.union([z.date(), z.string()]),
   })
   .strict();
 
+export const createProjectSchema = projectSchema.omit({
+  id: true,
+  updated_at: true,
+  created_at: true,
+});
+
 export type Project = z.infer<typeof projectSchema>;
+export type CreateProject = z.infer<typeof createProjectSchema>;

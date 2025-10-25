@@ -2,7 +2,10 @@ import { Project } from "./project.model";
 import { User } from "./user.model";
 
 User.hasMany(Project, {
-  foreignKey: "userId",
+  foreignKey: {
+    name: "userId",
+    allowNull: false,
+  },
   sourceKey: "id",
 });
 
