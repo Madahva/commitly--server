@@ -1,8 +1,5 @@
 import { sequelize } from "../database/connection";
-//import { defineAssociations } from "../models/associations";
-import "../database/models/user.model";
-
-//defineAssociations();
+import "../database/models";
 
 (async () => {
   try {

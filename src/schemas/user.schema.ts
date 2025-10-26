@@ -11,10 +11,10 @@ export const userSchema = z
     nickname: z.string().min(1),
     name: z.string(),
     picture: pictureUrlSchema,
-    updated_at: z.union([z.date(), z.string()]),
-    created_at: z.union([z.date(), z.string()]).optional(),
+    updatedAt: z.union([z.date(), z.string()]),
+    createdAt: z.union([z.date(), z.string()]).optional(),
     email: z.email(),
-    email_verified: z.boolean(),
+    emailVerified: z.boolean(),
     sub: z.string().regex(/^auth0\|[a-zA-Z0-9]+$/),
   })
   .strict();

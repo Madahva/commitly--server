@@ -1,0 +1,90 @@
+import { z } from "zod";
+
+export const projectSchema = z
+  .object({
+    id: z.number().int().positive(),
+    userId: z.number().int().positive(),
+    name: z.string(),
+    description: z.string(),
+    color: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i, {
+      message: "Color must be a valid hex color (e.g., #FF5733 or #F57)",
+    }),
+    isActive: z.boolean(),
+    trackTime: z.boolean(),
+    updatedAt: z.union([z.date(), z.string()]),
+    createdAt: z.union([z.date(), z.string()]),
+  })
+  .strict();
+
+export const createProjectSchema = projectSchema.omit({
+  id: true,
+  updatedAt: true,
+  createdAt: true,
+});
+
+export const updateProjectSchema = projectSchema
+  .omit({
+    id: true,
+    userId: true,
+    updatedAt: true,
+    createdAt: true,
+  })
+  .partial();
+
+export const createProjectEndpointSchema = z.object({
+  body: createProjectSchema,
+});
+
+export const getProjectEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+});
+
+export const updateProjectEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+  body: updateProjectSchema,
+});
+
+export const deleteProjectEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+});
+
+export const listProjectsEndpointSchema = z.object({
+  query: z.object({
+    userId: z.string().regex(/^\d+$/, "User ID must be a positive integer"),
+    isActive: z
+      .enum(["true", "false"])
+      .optional()
+      .transform((val) =>
+        val === "true" ? true : val === "false" ? false : undefined
+      ),
+    trackTime: z
+      .enum(["true", "false"])
+      .optional()
+      .transform((val) =>
+        val === "true" ? true : val === "false" ? false : undefined
+      ),
+    name: z.string().optional(),
+    limit: z
+      .string()
+      .regex(/^\d+$/, "Limit must be a positive integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    offset: z
+      .string()
+      .regex(/^\d+$/, "Offset must be a non-negative integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    orderBy: z.enum(["name", "createdAt", "updatedAt"]).optional(),
+    order: z.enum(["ASC", "DESC"]).optional(),
+  }),
+});
+
+export type Project = z.infer<typeof projectSchema>;
+export type CreateProject = z.infer<typeof createProjectSchema>;
+export type UpdateProject = z.infer<typeof updateProjectSchema>;

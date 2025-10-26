@@ -1,46 +1,58 @@
-import { DataTypes } from "sequelize";
+import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript";
 
-import { sequelize } from "../connection";
+import { Project } from "./project.model";
 
-export const User = sequelize.define(
-  "User",
-  {
-    nickname: {
-      type: DataTypes.STRING,
-      allowNull: false,
+@Table({
+  tableName: "Users",
+  timestamps: true,
+  underscored: true,
+})
+export class User extends Model {
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  nickname!: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  name?: string;
+
+  @Column({
+    type: DataType.STRING,
+    validate: {
+      isUrl: true,
     },
-    name: {
-      type: DataTypes.STRING,
+  })
+  picture?: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
     },
-    picture: {
-      type: DataTypes.STRING,
-      validate: {
-        isUrl: true,
-      },
+  })
+  email!: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  emailVerified!: boolean;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      is: /^auth0\|[a-zA-Z0-9]+$/,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
-    },
-    email_verified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    sub: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        is: /^auth0\|[a-zA-Z0-9]+$/,
-      },
-    },
-  },
-  {
-    updatedAt: "updated_at",
-    createdAt: "created_at",
-  }
-);
+  })
+  sub!: string;
+
+  @HasMany(() => Project)
+  projects?: Project[];
+}
