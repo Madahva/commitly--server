@@ -5,7 +5,7 @@ import { createSessionController } from "../controllers/sessions/createSession.c
 import { getSessionController } from "../controllers/sessions/getSession.controller";
 import { updateSessionController } from "../controllers/sessions/updateSession.controller";
 import { deleteSessionController } from "../controllers/sessions/deleteSession.controller";
-import { getProjectSessionsController } from "../controllers/sessions/getProjectSessions.controller";
+import { getAllSessionsController } from "../controllers/sessions/getAllSessions.controller";
 import {
   createSessionEndpointSchema,
   getSessionEndpointSchema,
@@ -25,7 +25,7 @@ router.post(
 router.get(
   "/",
   validateRequest(listSessionsEndpointSchema),
-  getProjectSessionsController
+  getAllSessionsController
 );
 
 router.get(
