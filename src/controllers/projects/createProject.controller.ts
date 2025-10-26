@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-import { createProject } from "../../services/project/createProject.service";
+import { createProject } from "../../services/projects/createProject.service";
 
 export const createProjectController = async (req: Request, res: Response) => {
   try {

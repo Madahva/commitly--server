@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-import { updateProject } from "../../services/project/updateProject.service";
+import { updateProject } from "../../services/projects/updateProject.service";
 
 export const updateProjectController = async (req: Request, res: Response) => {
   try {

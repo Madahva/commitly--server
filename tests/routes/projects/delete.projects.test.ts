@@ -4,7 +4,7 @@ import { sequelize } from "../../../src/database/connection";
 import { app } from "../../../src/app";
 import { User } from "../../../src/database/models/user.model";
 import { Project } from "../../../src/database/models/project.model";
-import * as projectService from "../../../src/services/project/deleteProject.service";
+import * as projectService from "../../../src/services/projects/deleteProject.service";
 import { createTestProject } from "../../helpers/mockData";
 
 beforeAll(async () => {

@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-import { getProjectById } from "../../services/project/getProject.service";
+import { getProjectById } from "../../services/projects/getProject.service";
 
 export const getProjectController = async (req: Request, res: Response) => {
   try {

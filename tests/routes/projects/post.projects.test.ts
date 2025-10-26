@@ -1,11 +1,12 @@
 import request from "supertest";
+
 import { app } from "../../../src/app";
 import { Project } from "../../../src/database/models/project.model";
 import { User } from "../../../src/database/models/user.model";
 import { projectSchema } from "../../../src/schemas/project.schema";
 import { sequelize } from "../../../src/database/connection";
-import { createProject } from "../../../src/services/project/createProject.service";
-import * as projectService from "../../../src/services/project/createProject.service";
+import { createProject } from "../../../src/services/projects/createProject.service";
+import * as projectService from "../../../src/services/projects/createProject.service";
 import {
   newProject,
   createTestProject,

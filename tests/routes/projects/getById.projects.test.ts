@@ -3,7 +3,7 @@ import request from "supertest";
 import { sequelize } from "../../../src/database/connection";
 import { app } from "../../../src/app";
 import { User } from "../../../src/database/models/user.model";
-import * as projectService from "../../../src/services/project/getProject.service";
+import * as projectService from "../../../src/services/projects/getProject.service";
 import { projectSchema } from "../../../src/schemas/project.schema";
 import { newProject, createTestProject } from "../../helpers/mockData";
 
