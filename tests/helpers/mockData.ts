@@ -1,5 +1,6 @@
 import { User } from "../../src/database/models";
 import { Project } from "../../src/database/models";
+import { Session } from "../../src/database/models";
 
 export const newUser = {
   nickname: "galarza.guillemo",
@@ -31,6 +32,13 @@ export const newProject = {
   trackTime: false,
 };
 
+export const newSession = {
+  name: "Morning coding session",
+  description: "Working on new features",
+  note: "Made good progress",
+  durationMinutes: 120,
+};
+
 export const createTestUser = async () => {
   const user = await User.create(newUser);
   return user.toJSON().id;
@@ -40,4 +48,11 @@ export const createTestProject = async () => {
   const userId = await createTestUser();
   const project = await Project.create({ userId, ...newProject });
   return project;
+};
+
+export const createTestSession = async () => {
+  const project = await createTestProject();
+  const projectId = project.toJSON().id;
+  const session = await Session.create({ projectId, ...newSession });
+  return session;
 };
