@@ -22,6 +22,15 @@ export const createProjectSchema = projectSchema.omit({
   createdAt: true,
 });
 
+export const updateProjectSchema = projectSchema
+  .omit({
+    id: true,
+    userId: true,
+    updatedAt: true,
+    createdAt: true,
+  })
+  .partial();
+
 export const createProjectEndpointSchema = z.object({
   body: createProjectSchema,
 });
@@ -32,5 +41,13 @@ export const getProjectEndpointSchema = z.object({
   }),
 });
 
+export const updateProjectEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+  body: updateProjectSchema,
+});
+
 export type Project = z.infer<typeof projectSchema>;
 export type CreateProject = z.infer<typeof createProjectSchema>;
+export type UpdateProject = z.infer<typeof updateProjectSchema>;
