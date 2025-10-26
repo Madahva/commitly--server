@@ -26,5 +26,11 @@ export const createProjectEndpointSchema = z.object({
   body: createProjectSchema,
 });
 
+export const getProjectEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+});
+
 export type Project = z.infer<typeof projectSchema>;
 export type CreateProject = z.infer<typeof createProjectSchema>;
