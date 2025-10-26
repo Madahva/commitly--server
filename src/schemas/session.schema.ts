@@ -45,6 +45,12 @@ export const updateSessionEndpointSchema = z.object({
   body: updateSessionSchema,
 });
 
+export const deleteSessionEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+});
+
 export type Session = z.infer<typeof sessionSchema>;
 export type CreateSession = z.infer<typeof createSessionSchema>;
 export type UpdateSession = z.infer<typeof updateSessionSchema>;
