@@ -1,12 +1,4 @@
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  CreatedAt,
-  UpdatedAt,
-  HasMany,
-} from "sequelize-typescript";
+import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript";
 
 import { Project } from "./project.model";
 
@@ -49,7 +41,7 @@ export class User extends Model {
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
-  email_verified!: boolean;
+  emailVerified!: boolean;
 
   @Column({
     type: DataType.STRING,
@@ -63,10 +55,4 @@ export class User extends Model {
 
   @HasMany(() => Project)
   projects?: Project[];
-
-  @CreatedAt
-  created_at!: Date;
-
-  @UpdatedAt
-  updated_at!: Date;
 }

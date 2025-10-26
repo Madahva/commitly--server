@@ -3,8 +3,6 @@ import {
   Column,
   Model,
   DataType,
-  CreatedAt,
-  UpdatedAt,
   ForeignKey,
   BelongsTo,
 } from "sequelize-typescript";
@@ -50,7 +48,7 @@ export class Project extends Model {
     type: DataType.BOOLEAN,
     defaultValue: true,
   })
-  track_time!: boolean;
+  trackTime!: boolean;
 
   @ForeignKey(() => User)
   @Column({
@@ -61,10 +59,4 @@ export class Project extends Model {
 
   @BelongsTo(() => User)
   user?: User;
-
-  @CreatedAt
-  created_at!: Date;
-
-  @UpdatedAt
-  updated_at!: Date;
 }

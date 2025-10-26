@@ -6,17 +6,11 @@ import { projectSchema } from "../../../src/schemas/project.schema";
 import { sequelize } from "../../../src/database/connection";
 import { createProject } from "../../../src/services/project/createProject.service";
 import * as projectService from "../../../src/services/project/createProject.service";
-import { newProject, newUser } from "../../helpers/mockData";
-
-export const createTestUser = async () => {
-  const user = await User.create(newUser);
-  return user.toJSON().id;
-};
-
-export const createTestProject = async (projectData = newProject) => {
-  const userId = await createTestUser();
-  return createProject({ userId, ...projectData });
-};
+import {
+  newProject,
+  createTestProject,
+  createTestUser,
+} from "../../helpers/mockData";
 
 beforeAll(async () => {
   await sequelize.sync({ force: true });
@@ -52,7 +46,7 @@ describe("createProject service", () => {
       description: newProject.description,
       color: newProject.color,
       isActive: newProject.isActive,
-      track_time: newProject.track_time,
+      trackTime: newProject.trackTime,
     });
   });
 
@@ -97,7 +91,7 @@ describe("POST /projects", () => {
       description: newProject.description,
       color: newProject.color,
       isActive: newProject.isActive,
-      track_time: newProject.track_time,
+      trackTime: newProject.trackTime,
     });
   });
 

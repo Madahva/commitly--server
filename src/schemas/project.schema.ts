@@ -10,16 +10,16 @@ export const projectSchema = z
       message: "Color must be a valid hex color (e.g., #FF5733 or #F57)",
     }),
     isActive: z.boolean(),
-    track_time: z.boolean(),
-    updated_at: z.union([z.date(), z.string()]),
-    created_at: z.union([z.date(), z.string()]),
+    trackTime: z.boolean(),
+    updatedAt: z.union([z.date(), z.string()]),
+    createdAt: z.union([z.date(), z.string()]),
   })
   .strict();
 
 export const createProjectSchema = projectSchema.omit({
   id: true,
-  updated_at: true,
-  created_at: true,
+  updatedAt: true,
+  createdAt: true,
 });
 
 export const createProjectEndpointSchema = z.object({

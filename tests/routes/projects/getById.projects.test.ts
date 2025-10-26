@@ -39,7 +39,7 @@ describe("GET /projects/:id", () => {
       description: newProject.description,
       color: newProject.color,
       isActive: newProject.isActive,
-      track_time: newProject.track_time,
+      trackTime: newProject.trackTime,
     });
   });
 
