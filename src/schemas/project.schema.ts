@@ -48,6 +48,12 @@ export const updateProjectEndpointSchema = z.object({
   body: updateProjectSchema,
 });
 
+export const deleteProjectEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+});
+
 export type Project = z.infer<typeof projectSchema>;
 export type CreateProject = z.infer<typeof createProjectSchema>;
 export type UpdateProject = z.infer<typeof updateProjectSchema>;
