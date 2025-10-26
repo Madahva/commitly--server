@@ -19,6 +19,15 @@ export const createSessionSchema = sessionSchema.omit({
   createdAt: true,
 });
 
+export const updateSessionSchema = sessionSchema
+  .omit({
+    id: true,
+    projectId: true,
+    updatedAt: true,
+    createdAt: true,
+  })
+  .partial();
+
 export const createSessionEndpointSchema = z.object({
   body: createSessionSchema,
 });
@@ -29,5 +38,13 @@ export const getSessionEndpointSchema = z.object({
   }),
 });
 
+export const updateSessionEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+  body: updateSessionSchema,
+});
+
 export type Session = z.infer<typeof sessionSchema>;
 export type CreateSession = z.infer<typeof createSessionSchema>;
+export type UpdateSession = z.infer<typeof updateSessionSchema>;
