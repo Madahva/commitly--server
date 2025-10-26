@@ -5,11 +5,13 @@ import { createSessionController } from "../controllers/sessions/createSession.c
 import { getSessionController } from "../controllers/sessions/getSession.controller";
 import { updateSessionController } from "../controllers/sessions/updateSession.controller";
 import { deleteSessionController } from "../controllers/sessions/deleteSession.controller";
+import { getProjectSessionsController } from "../controllers/sessions/getProjectSessions.controller";
 import {
   createSessionEndpointSchema,
   getSessionEndpointSchema,
   updateSessionEndpointSchema,
   deleteSessionEndpointSchema,
+  listSessionsEndpointSchema,
 } from "../schemas/session.schema";
 
 const router = Router();
@@ -18,6 +20,12 @@ router.post(
   "/",
   validateRequest(createSessionEndpointSchema),
   createSessionController
+);
+
+router.get(
+  "/",
+  validateRequest(listSessionsEndpointSchema),
+  getProjectSessionsController
 );
 
 router.get(

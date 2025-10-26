@@ -51,6 +51,29 @@ export const deleteSessionEndpointSchema = z.object({
   }),
 });
 
+export const listSessionsEndpointSchema = z.object({
+  query: z.object({
+    projectId: z
+      .string()
+      .regex(/^\d+$/, "Project ID must be a positive integer"),
+    name: z.string().optional(),
+    limit: z
+      .string()
+      .regex(/^\d+$/, "Limit must be a positive integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    offset: z
+      .string()
+      .regex(/^\d+$/, "Offset must be a non-negative integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    orderBy: z
+      .enum(["name", "createdAt", "updatedAt", "durationMinutes"])
+      .optional(),
+    order: z.enum(["ASC", "DESC"]).optional(),
+  }),
+});
+
 export type Session = z.infer<typeof sessionSchema>;
 export type CreateSession = z.infer<typeof createSessionSchema>;
 export type UpdateSession = z.infer<typeof updateSessionSchema>;
