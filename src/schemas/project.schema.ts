@@ -57,6 +57,31 @@ export const deleteProjectEndpointSchema = z.object({
 export const listProjectsEndpointSchema = z.object({
   query: z.object({
     userId: z.string().regex(/^\d+$/, "User ID must be a positive integer"),
+    isActive: z
+      .enum(["true", "false"])
+      .optional()
+      .transform((val) =>
+        val === "true" ? true : val === "false" ? false : undefined
+      ),
+    trackTime: z
+      .enum(["true", "false"])
+      .optional()
+      .transform((val) =>
+        val === "true" ? true : val === "false" ? false : undefined
+      ),
+    name: z.string().optional(),
+    limit: z
+      .string()
+      .regex(/^\d+$/, "Limit must be a positive integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    offset: z
+      .string()
+      .regex(/^\d+$/, "Offset must be a non-negative integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    orderBy: z.enum(["name", "createdAt", "updatedAt"]).optional(),
+    order: z.enum(["ASC", "DESC"]).optional(),
   }),
 });
 
