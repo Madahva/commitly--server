@@ -23,5 +23,11 @@ export const createSessionEndpointSchema = z.object({
   body: createSessionSchema,
 });
 
+export const getSessionEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+});
+
 export type Session = z.infer<typeof sessionSchema>;
 export type CreateSession = z.infer<typeof createSessionSchema>;
