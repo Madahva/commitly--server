@@ -28,10 +28,11 @@ export class ProjectGoal extends Model {
   description?: string;
 
   @Column({
-    type: DataType.BOOLEAN,
-    defaultValue: false,
+    type: DataType.ENUM("pending", "on progress", "completed"),
+    allowNull: false,
+    defaultValue: "pending",
   })
-  status!: boolean;
+  status!: "pending" | "on progress" | "completed";
 
   @ForeignKey(() => Project)
   @Column({
