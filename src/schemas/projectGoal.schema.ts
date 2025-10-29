@@ -22,5 +22,11 @@ export const createProjectGoalEndpointSchema = z.object({
   body: createProjectGoalSchema,
 });
 
+export const deleteProjectGoalEndpointSchema = z.object({
+  params: z.object({
+    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+  }),
+});
+
 export type ProjectGoal = z.infer<typeof projectGoalSchema>;
 export type CreateProjectGoal = z.infer<typeof createProjectGoalSchema>;
