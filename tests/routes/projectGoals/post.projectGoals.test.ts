@@ -28,24 +28,24 @@ afterAll(async () => {
 
 describe("createProjectGoal service", () => {
   it("should create a new projectGoal", async () => {
-    await createTestProjectGoal();
+    const createdGoal = await createTestProjectGoal();
 
     const projectGoalInDb = await ProjectGoal.findOne({
-      where: { name: newProjectGoal.name },
+      where: { id: createdGoal[0].id },
     });
 
     expect(projectGoalInDb).not.toBeNull();
-    expect(projectGoalInDb?.get("name")).toBe(newProjectGoal.name);
+    expect(projectGoalInDb?.get("name")).toBe(`${newProjectGoal.name} 1`);
   });
 
   it("should return the created session", async () => {
     const createdProjectGoal = await createTestProjectGoal();
     const parsedProjectGoal = projectGoalSchema.parse(
-      createdProjectGoal.toJSON()
+      createdProjectGoal[0].toJSON()
     );
 
     expect(parsedProjectGoal).toMatchObject({
-      name: newProjectGoal.name,
+      name: `${newProjectGoal.name} 1`,
       description: newProjectGoal.description,
       status: newProjectGoal.status,
     });

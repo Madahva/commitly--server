@@ -64,13 +64,17 @@ export const createTestSession = async () => {
   return session;
 };
 
-export const createTestProjectGoal = async () => {
+export const createTestProjectGoal = async (count: number = 1) => {
   const project = await createTestProject();
   const projectId = project.toJSON().id;
-  const projectGoal = await ProjectGoal.create({
-    projectId,
-    ...newProjectGoal,
-  });
 
-  return projectGoal;
+  const projectGoals = await ProjectGoal.bulkCreate(
+    Array.from({ length: count }, (_, index) => ({
+      projectId,
+      ...newProjectGoal,
+      name: `${newProjectGoal.name} ${index + 1}`,
+    }))
+  );
+
+  return projectGoals;
 };

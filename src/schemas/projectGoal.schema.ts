@@ -28,5 +28,29 @@ export const deleteProjectGoalEndpointSchema = z.object({
   }),
 });
 
+export const listProjectGoalsEndpointSchema = z.object({
+  query: z.object({
+    projectId: z.coerce.number().int().positive(),
+    name: z.string().optional(),
+    limit: z
+      .string()
+      .regex(/^\d+$/, "Limit must be a positive integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    offset: z
+      .string()
+      .regex(/^\d+$/, "Offset must be a non-negative integer")
+      .optional()
+      .transform((val) => (val ? Number(val) : undefined)),
+    orderBy: z
+      .enum(["name", "createdAt", "updatedAt", "durationMinutes"])
+      .optional(),
+    order: z.enum(["ASC", "DESC"]).optional(),
+  }),
+});
+
+export type ListProjectGoalsQuery = z.infer<
+  typeof listProjectGoalsEndpointSchema
+>["query"];
 export type ProjectGoal = z.infer<typeof projectGoalSchema>;
 export type CreateProjectGoal = z.infer<typeof createProjectGoalSchema>;

@@ -4,7 +4,7 @@ import { app } from "../../../src/app";
 import { sequelize } from "../../../src/database/connection";
 import { User } from "../../../src/database/models/user.model";
 import { ProjectGoal } from "../../../src/database/models";
-import { newProjectGoal, createTestProjectGoal } from "../../helpers/mockData";
+import { createTestProjectGoal } from "../../helpers/mockData";
 import { deleteProjectGoal } from "../../../src/services/projectGoals/deleteProjectGoal.service";
 import * as projectGoalService from "../../../src/services/projectGoals/deleteProjectGoal.service";
 
@@ -23,10 +23,11 @@ afterAll(async () => {
 
 describe("deleteProjectGoal service", () => {
   it("should delete an existing projectGoal", async () => {
-    await createTestProjectGoal();
+    const projectGoals = await createTestProjectGoal();
+    const createdGoal = projectGoals[0];
 
     const projectGoalInDbBeforeDelete = await ProjectGoal.findOne({
-      where: { name: newProjectGoal.name },
+      where: { id: createdGoal.id },
     });
 
     expect(projectGoalInDbBeforeDelete).not.toBeNull();
@@ -34,7 +35,7 @@ describe("deleteProjectGoal service", () => {
     await deleteProjectGoal(projectGoalInDbBeforeDelete?.get("id"));
 
     const projectGoalInDbAfterDelete = await ProjectGoal.findOne({
-      where: { name: newProjectGoal.name },
+      where: { id: createdGoal.id },
     });
 
     expect(projectGoalInDbAfterDelete).toBeNull();
@@ -46,7 +47,7 @@ describe("DELETE /projectGoals/:id", () => {
     const createdProjectGoal = await createTestProjectGoal();
 
     const response = await request(app).delete(
-      `/api/projectGoals/${createdProjectGoal.toJSON().id}`
+      `/api/projectGoals/${createdProjectGoal[0].toJSON().id}`
     );
 
     expect(response.status).toBe(204);
@@ -54,7 +55,7 @@ describe("DELETE /projectGoals/:id", () => {
 
   it("should delete the project from database", async () => {
     const createdProjectGoal = await createTestProjectGoal();
-    const projectGoalId = createdProjectGoal.get("id");
+    const projectGoalId = createdProjectGoal[0].get("id");
 
     await request(app).delete(`/api/projectGoals/${projectGoalId}`);
 
@@ -101,7 +102,7 @@ describe("DELETE /projectGoals/:id", () => {
       const projectGoal = await createTestProjectGoal();
 
       const res = await request(app).delete(
-        `/api/projectGoals/${projectGoal.get("id")}`
+        `/api/projectGoals/${projectGoal[0].get("id")}`
       );
 
       expect(res.statusCode).toBe(500);
