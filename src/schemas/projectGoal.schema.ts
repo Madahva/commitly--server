@@ -24,7 +24,7 @@ export const createProjectGoalEndpointSchema = z.object({
 
 export const deleteProjectGoalEndpointSchema = z.object({
   params: z.object({
-    id: z.string().regex(/^\d+$/, "ID must be a positive integer"),
+    id: z.coerce.number().int().positive(),
   }),
 });
 
@@ -46,6 +46,12 @@ export const listProjectGoalsEndpointSchema = z.object({
       .enum(["name", "createdAt", "updatedAt", "durationMinutes"])
       .optional(),
     order: z.enum(["ASC", "DESC"]).optional(),
+  }),
+});
+
+export const getProjectGoalByIdEndpointSchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
   }),
 });
 
