@@ -5,11 +5,13 @@ import { createProjectGoalController } from "../controllers/projectGoals/createP
 import { deleteProjectGoalController } from "../controllers/projectGoals/deleteProjectGoal.controller";
 import { getProjectGoalsController } from "../controllers/projectGoals/getProjectGoals.controller";
 import { getProjectGoalByIdController } from "../controllers/projectGoals/getProjectGoalsById.controller";
+import { updateProjectGoalsController } from "../controllers/projectGoals/updateProjectGoals.controller";
 import {
   createProjectGoalEndpointSchema,
   deleteProjectGoalEndpointSchema,
   listProjectGoalsEndpointSchema,
   getProjectGoalByIdEndpointSchema,
+  updateProjectGoalEndpointSchema,
 } from "../schemas/projectGoal.schema";
 
 const router = Router();
@@ -36,6 +38,12 @@ router.delete(
   "/:id",
   validateRequest(deleteProjectGoalEndpointSchema),
   deleteProjectGoalController
+);
+
+router.put(
+  "/:id",
+  validateRequest(updateProjectGoalEndpointSchema),
+  updateProjectGoalsController
 );
 
 export default router;

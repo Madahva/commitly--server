@@ -55,8 +55,25 @@ export const getProjectGoalByIdEndpointSchema = z.object({
   }),
 });
 
+export const updateProjectGoalSchema = projectGoalSchema
+  .omit({
+    id: true,
+    projectId: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .partial();
+
+export const updateProjectGoalEndpointSchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
+  }),
+  body: updateProjectGoalSchema,
+});
+
 export type ListProjectGoalsQuery = z.infer<
   typeof listProjectGoalsEndpointSchema
 >["query"];
 export type ProjectGoal = z.infer<typeof projectGoalSchema>;
 export type CreateProjectGoal = z.infer<typeof createProjectGoalSchema>;
+export type UpdateProjectGoal = z.infer<typeof updateProjectGoalSchema>;
