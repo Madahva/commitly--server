@@ -2,6 +2,7 @@ import { User } from "../../src/database/models";
 import { Project } from "../../src/database/models";
 import { Session } from "../../src/database/models";
 import { ProjectGoal } from "../../src/database/models";
+import { SessionGoal } from "../../src/database/models";
 
 export const newUser = {
   nickname: "galarza.guillemo",
@@ -46,6 +47,12 @@ export const newProjectGoal = {
   status: "pending" as const,
 };
 
+export const newSessionGoal = {
+  name: "some session goal name",
+  description: "some session goal description",
+  status: "pending" as const,
+};
+
 export const createTestUser = async () => {
   const user = await User.create(newUser);
   return user.toJSON().id;
@@ -77,4 +84,19 @@ export const createTestProjectGoal = async (count: number = 1) => {
   );
 
   return projectGoals;
+};
+
+export const createTestSessionGoal = async (count: number = 1) => {
+  const session = await createTestSession();
+  const sessionId = session.toJSON().id;
+
+  const sessionGoals = await SessionGoal.bulkCreate(
+    Array.from({ length: count }, (_, index) => ({
+      sessionId,
+      ...newSessionGoal,
+      name: `${newSessionGoal.name} ${index + 1}`,
+    }))
+  );
+
+  return sessionGoals;
 };
