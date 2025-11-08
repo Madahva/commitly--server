@@ -1,3 +1,6 @@
+import request from "supertest";
+
+import { app } from "../../../src/app";
 import { sequelize } from "../../../src/database/connection";
 import { User } from "../../../src/database/models/user.model";
 import { SessionGoal } from "../../../src/database/models";
@@ -60,5 +63,35 @@ describe("createSessionGoal service", () => {
     });
 
     expect(SessionGoalsInDb).toHaveLength(2);
+  });
+});
+
+describe("POST /sessionGoals", () => {
+  it("should respond with 201", async () => {
+    const session = await createTestSession();
+    const sessionId = session.toJSON().id;
+
+    const res = await request(app)
+      .post("/api/sessionGoals")
+      .send({ sessionId, ...newSessionGoal });
+
+    expect(res.statusCode).toBe(201);
+  });
+
+  it("should return the created SessionGoal", async () => {
+    const session = await createTestSession();
+    const sessionId = session.toJSON().id;
+
+    const res = await request(app)
+      .post("/api/sessionGoals")
+      .send({ sessionId, ...newSessionGoal });
+
+    const parsedSessionGoal = sessionGoalSchema.parse(res.body);
+
+    expect(parsedSessionGoal).toMatchObject({
+      name: newSessionGoal.name,
+      description: newSessionGoal.description,
+      status: newSessionGoal.status,
+    });
   });
 });

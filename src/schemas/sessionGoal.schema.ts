@@ -18,4 +18,8 @@ export const createSessionGoalSchema = sessionGoalSchema.omit({
   createdAt: true,
 });
 
+export const createSessionGoalEndpointSchema = z.object({
+  body: createSessionGoalSchema,
+});
+
 export type CreateSessionGoal = z.infer<typeof createSessionGoalSchema>;
