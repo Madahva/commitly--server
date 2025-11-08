@@ -5,6 +5,7 @@ import { User } from "./models/user.model";
 import { Project } from "./models/project.model";
 import { Session } from "./models/session.model";
 import { ProjectGoal } from "./models/projectGoal.model";
+import { SessionGoal } from "./models/sessionGoal.model";
 
 export const sequelize = new Sequelize({
   database: DB_NAME,
@@ -13,5 +14,5 @@ export const sequelize = new Sequelize({
   host: DB_HOST,
   dialect: "postgres",
   logging: NODE_ENV === "development" ? console.log : false,
-  models: [User, Project, Session, ProjectGoal],
+  models: [User, Project, Session, ProjectGoal, SessionGoal],
 });
