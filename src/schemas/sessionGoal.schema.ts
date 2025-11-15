@@ -63,6 +63,12 @@ export const updateSessionGoalEndpointSchema = z.object({
   body: updateSessionGoalSchema,
 });
 
+export const deleteSessionGoalEndpointSchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
+  }),
+});
+
 export type ListSessionGoalsQuery = z.infer<
   typeof listSessionGoalsEndpointSchema
 >["query"];

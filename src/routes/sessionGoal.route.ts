@@ -5,11 +5,13 @@ import { createSessionGoalController } from "../controllers/sessionGoals/createS
 import { getSessionGoalsController } from "../controllers/sessionGoals/getSessionGoals.controller";
 import { getSessionGoalByIdController } from "../controllers/sessionGoals/getSessionGoalById.controller";
 import { updateSessionGoalController } from "../controllers/sessionGoals/updateSessionGoal.controller";
+import { deleteSessionGoalController } from "../controllers/sessionGoals/deleteSessionGoal.controller";
 import {
   createSessionGoalEndpointSchema,
   listSessionGoalsEndpointSchema,
   getSessionGoalByIdEndpointSchema,
   updateSessionGoalEndpointSchema,
+  deleteSessionGoalEndpointSchema,
 } from "../schemas/sessionGoal.schema";
 
 const router = Router();
@@ -36,6 +38,12 @@ router.put(
   "/:id",
   validateRequest(updateSessionGoalEndpointSchema),
   updateSessionGoalController
+);
+
+router.delete(
+  "/:id",
+  validateRequest(deleteSessionGoalEndpointSchema),
+  deleteSessionGoalController
 );
 
 export default router;
