@@ -41,6 +41,12 @@ export const listSessionGoalsEndpointSchema = z.object({
   }),
 });
 
+export const getSessionGoalByIdEndpointSchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
+  }),
+});
+
 export type ListSessionGoalsQuery = z.infer<
   typeof listSessionGoalsEndpointSchema
 >["query"];
