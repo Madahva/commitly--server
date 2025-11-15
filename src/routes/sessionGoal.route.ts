@@ -4,10 +4,12 @@ import { validateRequest } from "../middlewares/validateRequestSchema.middleware
 import { createSessionGoalController } from "../controllers/sessionGoals/createSessionGoal.controller";
 import { getSessionGoalsController } from "../controllers/sessionGoals/getSessionGoals.controller";
 import { getSessionGoalByIdController } from "../controllers/sessionGoals/getSessionGoalById.controller";
+import { updateSessionGoalController } from "../controllers/sessionGoals/updateSessionGoal.controller";
 import {
   createSessionGoalEndpointSchema,
   listSessionGoalsEndpointSchema,
   getSessionGoalByIdEndpointSchema,
+  updateSessionGoalEndpointSchema,
 } from "../schemas/sessionGoal.schema";
 
 const router = Router();
@@ -28,6 +30,12 @@ router.get(
   "/:id",
   validateRequest(getSessionGoalByIdEndpointSchema),
   getSessionGoalByIdController
+);
+
+router.put(
+  "/:id",
+  validateRequest(updateSessionGoalEndpointSchema),
+  updateSessionGoalController
 );
 
 export default router;

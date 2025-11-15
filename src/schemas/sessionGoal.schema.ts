@@ -47,7 +47,24 @@ export const getSessionGoalByIdEndpointSchema = z.object({
   }),
 });
 
+export const updateSessionGoalSchema = sessionGoalSchema
+  .omit({
+    id: true,
+    sessionId: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .partial();
+
+export const updateSessionGoalEndpointSchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
+  }),
+  body: updateSessionGoalSchema,
+});
+
 export type ListSessionGoalsQuery = z.infer<
   typeof listSessionGoalsEndpointSchema
 >["query"];
 export type CreateSessionGoal = z.infer<typeof createSessionGoalSchema>;
+export type UpdateSessionGoal = z.infer<typeof updateSessionGoalSchema>;
