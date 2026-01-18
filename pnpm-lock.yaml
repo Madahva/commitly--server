@@ -16,6 +16,9 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.1.0
+      express-oauth2-jwt-bearer:
+        specifier: ^1.7.3
+        version: 1.7.3
       pg:
         specifier: ^8.16.3
         version: 8.16.3
@@ -2228,6 +2231,16 @@ packages:
       }
     engines: { node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0 }
 
+  express-oauth2-jwt-bearer@1.7.3:
+    resolution:
+      {
+        integrity: sha512-s/Vv9rl8du5/2nkOfdWt3u1VufjKqa2xJxQpPTlTqd5NicrREgQT+43a4ZGxHPCjaCUjBVzCtwTgd7rKeKW57w==,
+      }
+    engines:
+      {
+        node: ^12.19.0 || ^14.15.0 || ^16.13.0 || ^18.12.0 || ^20.2.0 || ^22.1.0 || ^24.0.0,
+      }
+
   express@5.1.0:
     resolution:
       {
@@ -3031,6 +3044,12 @@ packages:
         integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==,
       }
     hasBin: true
+
+  jose@4.15.9:
+    resolution:
+      {
+        integrity: sha512-1vUQX+IdDMVPj4k8kOxgUqlcK518yluMuGZwqlr44FS1ppZB/5GWh4rZG89erpOBOJjU/OBsnCVFfapsRz6nEA==,
+      }
 
   js-tokens@4.0.0:
     resolution:
@@ -6146,6 +6165,10 @@ snapshots:
       jest-mock: 30.2.0
       jest-util: 30.2.0
 
+  express-oauth2-jwt-bearer@1.7.3:
+    dependencies:
+      jose: 4.15.9
+
   express@5.1.0:
     dependencies:
       accepts: 2.0.0
@@ -6821,6 +6844,8 @@ snapshots:
       - ts-node
 
   jiti@2.6.1: {}
+
+  jose@4.15.9: {}
 
   js-tokens@4.0.0: {}
 
