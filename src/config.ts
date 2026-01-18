@@ -50,3 +50,6 @@ const currentConfig = getConfig(env);
 export const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = currentConfig;
 export const PORT = process.env.PORT || 3000;
 export const NODE_ENV = env;
+export const CLIENT_ORIGIN_URL = getEnvVar("CLIENT_ORIGIN_URL");
+export const AUTH0_DOMAIN = getEnvVar("AUTH0_DOMAIN");
+export const AUTH0_AUDIENCE = getEnvVar("AUTH0_AUDIENCE");
