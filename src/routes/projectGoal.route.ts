@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { verifyProjectGoalOwnership } from "../middlewares/verifyProjectGoalOwnership.middleware";
 import { validateRequest } from "../middlewares/validateRequestSchema.middleware";
 import { createProjectGoalController } from "../controllers/projectGoals/createProjectGoal.controller";
 import { deleteProjectGoalController } from "../controllers/projectGoals/deleteProjectGoal.controller";
@@ -31,18 +32,21 @@ router.get(
 router.get(
   "/:id",
   validateRequest(getProjectGoalByIdEndpointSchema),
+  verifyProjectGoalOwnership,
   getProjectGoalByIdController
 );
 
 router.delete(
   "/:id",
   validateRequest(deleteProjectGoalEndpointSchema),
+  verifyProjectGoalOwnership,
   deleteProjectGoalController
 );
 
 router.put(
   "/:id",
   validateRequest(updateProjectGoalEndpointSchema),
+  verifyProjectGoalOwnership,
   updateProjectGoalsController
 );
 
