@@ -31,6 +31,9 @@ jobs:
       TEST_DB_NAME: test_db
       TEST_DB_USER: postgres
       TEST_DB_PASSWORD: password
+      CLIENT_ORIGIN_URL: http://localhost:4040
+      AUTH0_AUDIENCE: http://localhost:4040/
+      AUTH0_DOMAIN: dev-78mttp58d8xhi07k.us.auth0.com
 
     steps:
       - uses: actions/checkout@v4

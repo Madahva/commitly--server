@@ -15,7 +15,7 @@ export const userSchema = z
     createdAt: z.union([z.date(), z.string()]).optional(),
     email: z.email(),
     emailVerified: z.boolean(),
-    sub: z.string().regex(/^auth0\|[a-zA-Z0-9]+$/),
+    sub: z.string(),
   })
   .strict();
 

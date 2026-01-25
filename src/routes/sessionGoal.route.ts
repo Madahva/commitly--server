@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { verifySessionGoalOwnership } from "../middlewares/verifySessionGoalOwnership.middleware";
 import { validateRequest } from "../middlewares/validateRequestSchema.middleware";
 import { createSessionGoalController } from "../controllers/sessionGoals/createSessionGoal.controller";
 import { getSessionGoalsController } from "../controllers/sessionGoals/getSessionGoals.controller";
@@ -31,18 +32,21 @@ router.get(
 router.get(
   "/:id",
   validateRequest(getSessionGoalByIdEndpointSchema),
+  verifySessionGoalOwnership,
   getSessionGoalByIdController
 );
 
 router.put(
   "/:id",
   validateRequest(updateSessionGoalEndpointSchema),
+  verifySessionGoalOwnership,
   updateSessionGoalController
 );
 
 router.delete(
   "/:id",
   validateRequest(deleteSessionGoalEndpointSchema),
+  verifySessionGoalOwnership,
   deleteSessionGoalController
 );
 

@@ -155,10 +155,3 @@ describe("PUT /users/:id", () => {
     });
   });
 });
-/*
-
-  describe("when authentication or authorization fails", () => {
-    it("should return 401 if no token is provided", async () => {});
-    it("should return 403 if the requester is not an admin", async () => {});
-  });
-    */

@@ -47,9 +47,6 @@ export class User extends Model {
     type: DataType.STRING,
     allowNull: false,
     unique: true,
-    validate: {
-      is: /^auth0\|[a-zA-Z0-9]+$/,
-    },
   })
   sub!: string;
 
