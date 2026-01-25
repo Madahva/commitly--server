@@ -3,6 +3,7 @@ import cors from "cors";
 import routes from "./routes";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import { CLIENT_ORIGIN_URL } from "./config";
 
 export const app = express();
 
@@ -22,7 +23,8 @@ app.use(limiter);
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: CLIENT_ORIGIN_URL.split(",").map((origin) => origin.trim()),
+    credentials: true,
   })
 );
 
