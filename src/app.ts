@@ -7,6 +7,7 @@ import rateLimit from "express-rate-limit";
 import routes from "./routes";
 import { CLIENT_ORIGIN_URL, NODE_ENV } from "./config";
 import { logger } from "./utils/logger";
+import { requestContextMiddleware } from "./middlewares/requestContext.middleware";
 
 export const app = express();
 
@@ -31,6 +32,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(requestContextMiddleware);
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
