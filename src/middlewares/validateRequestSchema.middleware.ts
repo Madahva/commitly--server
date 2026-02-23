@@ -12,6 +12,7 @@ export const validateRequest =
       next();
     } catch (error) {
       console.error(error);
+
       if (error instanceof ZodError) {
         return res.status(400).json(
           error.issues.map((issue) => ({
@@ -20,6 +21,10 @@ export const validateRequest =
           }))
         );
       }
-      return res.status(500).json({ message: "internal server error" });
+
+      return res.status(500).json({
+        error: "INTERNAL_SERVER_ERROR",
+        message: "An unexpected error occurred",
+      });
     }
   };

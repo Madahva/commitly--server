@@ -1,12 +1,16 @@
 import express from "express";
 import cors from "cors";
-import routes from "./routes";
+import pinoHttp from "pino-http";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import { CLIENT_ORIGIN_URL } from "./config";
+
+import routes from "./routes";
+import { CLIENT_ORIGIN_URL, NODE_ENV } from "./config";
+import { logger } from "./utils/logger";
 
 export const app = express();
 
+app.use(pinoHttp({ logger }));
 app.use(helmet());
 
 const limiter = rateLimit({
@@ -36,7 +40,7 @@ app.get("/health", (req, res) => {
     status: "OK",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || "development",
+    environment: NODE_ENV || "development",
   });
 });
 

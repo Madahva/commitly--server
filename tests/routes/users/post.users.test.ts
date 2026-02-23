@@ -97,7 +97,10 @@ describe("POST /users", () => {
       const res = await request(app).post("/api/users").send(newUser);
 
       expect(res.statusCode).toBe(500);
-      expect(res.body).toEqual({ message: "Internal Server Error" });
+      expect(res.body).toEqual({
+        error: "INTERNAL_SERVER_ERROR",
+        message: "An unexpected error occurred while processing your request",
+      });
     });
   });
 });

@@ -36,7 +36,7 @@ export const verifyProjectOwnership = async (
 
     next();
   } catch (error) {
-    console.error(error);
+    req.log.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

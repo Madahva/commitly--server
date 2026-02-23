@@ -3,39 +3,40 @@ import "reflect-metadata";
 import { app } from "./app";
 import { PORT } from "./config";
 import { sequelize } from "./database/connection";
+import { logger } from "./utils/logger";
 
 let server: import("http").Server | undefined;
 
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ Database connected successfully.");
+    logger.info("✅ Database connected successfully.");
 
     server = app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
+      logger.info(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error("❌ Unable to connect to the database:", error);
+    logger.error(error, "❌ Unable to connect to the database:");
   }
 })();
 
 const gracefulShutdown = async (signal: string) => {
-  console.log(`\n📡 Received ${signal}, shutting down gracefully...`);
+  logger.info(`\n📡 Received ${signal}, shutting down gracefully...`);
 
   try {
     if (server) {
       server.close(() => {
-        console.log("✅ HTTP server closed");
+        logger.info("✅ HTTP server closed");
       });
     }
 
     await sequelize.close();
-    console.log("✅ Database connection closed");
+    logger.info("✅ Database connection closed");
 
-    console.log("✅ Graceful shutdown completed");
+    logger.info("✅ Graceful shutdown completed");
     process.exit(0);
   } catch (error) {
-    console.error("❌ Error during shutdown:", error);
+    logger.error(error, "❌ Error during shutdown:");
     process.exit(1);
   }
 };

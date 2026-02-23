@@ -1,16 +1,17 @@
 import { sequelize } from "../database/connection";
 import "../database/models";
+import { logger } from "../utils/logger";
 
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ Database connected successfully.");
+    logger.info("✅ Database connected successfully.");
 
     await sequelize.sync({ force: true });
-    console.log("🗄️  Database tables synced.");
+    logger.info("🗄️  Database tables synced.");
     process.exit(0);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   }
 })();
