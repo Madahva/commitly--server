@@ -102,7 +102,10 @@ describe("GET /projectGoals/:id", () => {
       );
 
       expect(res.statusCode).toBe(500);
-      expect(res.body).toEqual({ message: "Internal Server Error" });
+      expect(res.body).toEqual({
+        error: "INTERNAL_SERVER_ERROR",
+        message: "An unexpected error occurred while processing your request",
+      });
     });
   });
 });

@@ -14,21 +14,30 @@ export const verifyUserOwnership = async (
       return next();
     }
 
-    const user = await getUserById(Number(id));
+    const userId = Number(id);
+    const user = await getUserById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        error: "USER_NOT_FOUND",
+        message: `User with id ${userId} does not exist`,
+      });
     }
 
     if (user.sub !== sub) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized - Resource not owned by user" });
+      return res.status(403).json({
+        error: "FORBIDDEN",
+        message: "You do not have permission to access this user resource",
+      });
     }
 
     next();
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    req.log.error(error);
+
+    return res.status(500).json({
+      error: "INTERNAL_SERVER_ERROR",
+      message: "An unexpected error occurred while verifying user ownership",
+    });
   }
 };

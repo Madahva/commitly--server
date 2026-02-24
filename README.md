@@ -25,6 +25,7 @@ A RESTful API server built with Express.js, TypeScript, and PostgreSQL for manag
 - **PostgreSQL** database with Sequelize ORM
 - **Request validation** using Zod schemas
 - **Auth0 integration** for user authentication
+- **Request correlation tracking** for better observability
 - **Comprehensive test coverage** with Jest
 - **CORS enabled** for frontend integration
 - **Environment-based configuration** (development, test, production)
@@ -448,6 +449,34 @@ The application follows a **layered architecture**:
 - **SQL Injection Protection**: Sequelize ORM with parameterized queries
 - **CORS**: Configured for specific frontend origin
 - **Environment Variables**: Sensitive data stored in `.env` (not committed)
+- **Request Correlation IDs**: Each request tracked with unique ID for better debugging and security auditing
+
+### Request Context & Correlation IDs
+
+The server automatically generates and tracks unique request IDs for observability:
+
+```typescript
+// Automatically added to all requests
+// Usage in logs
+logger.info("Processing request");
+// Output includes: { requestId: "uuid", userId: "auth0|...", ... }
+```
+
+**Features:**
+
+- Unique `x-request-id` header generated per request (UUID v4)
+- Automatically passed through async operations via `AsyncLocalStorage`
+- Included in all logs for request tracing
+- Supports client-provided request IDs via `x-request-id` header
+- User ID automatically captured from Auth0 token
+- Returned in response headers for client reference
+
+**Usage in debugging:**
+
+```bash
+# Find all logs related to a specific request
+grep "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9g0h1i2j" logs/*.log
+```
 
 ## 🐳 Docker Support
 

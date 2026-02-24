@@ -20,30 +20,44 @@ export const verifySessionOwnership = async (
     const session = await getSessionById(Number(id));
 
     if (!session) {
-      return res.status(404).json({ message: "Session not found" });
+      return res.status(404).json({
+        error: "SESSION_NOT_FOUND",
+        message: `Session with id ${id} does not exist`,
+      });
     }
 
     const project = await getProjectById(session.projectId);
 
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({
+        error: "PROJECT_NOT_FOUND",
+        message: `Project with id ${session.projectId} does not exist`,
+      });
     }
 
     const user = await getUserById(project.userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        error: "USER_NOT_FOUND",
+        message: `User with id ${project.userId} does not exist`,
+      });
     }
 
     if (user.sub !== sub) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized - Resource not owned by user" });
+      return res.status(403).json({
+        error: "FORBIDDEN",
+        message: "You do not have permission to access this session resource",
+      });
     }
 
     next();
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    req.log.error(error);
+
+    return res.status(500).json({
+      error: "INTERNAL_SERVER_ERROR",
+      message: "An unexpected error occurred while verifying user ownership",
+    });
   }
 };

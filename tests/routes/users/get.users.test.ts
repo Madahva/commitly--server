@@ -60,7 +60,10 @@ describe("GET /users", () => {
       const res = await request(app).get("/api/users");
 
       expect(res.statusCode).toBe(500);
-      expect(res.body).toHaveProperty("message", "Internal Server Error");
+      expect(res.body).toHaveProperty(
+        "message",
+        "An unexpected error occurred while processing your request"
+      );
 
       jest.restoreAllMocks();
     });

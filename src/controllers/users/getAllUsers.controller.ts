@@ -8,7 +8,10 @@ export const getAllUsersController = async (req: Request, res: Response) => {
     const users: User[] = await getAllUsersService();
     return res.status(200).json(users);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    req.log.error(error);
+    return res.status(500).json({
+      error: "INTERNAL_SERVER_ERROR",
+      message: "An unexpected error occurred while processing your request",
+    });
   }
 };
